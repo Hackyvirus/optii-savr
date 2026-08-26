@@ -87,40 +87,57 @@ $("#raw-que-domestic-no").click(() => {
 });
 
 $(function () {
+  const PLUS_ICON =
+    "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/img/plus.png";
+  const MINUS_ICON =
+    "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/img/minus.png";
+
+  // Only one FAQ category open at a time: closing every other category
+  // before toggling the clicked one.
   $(".title-q .add").click(function () {
     const sectionId = "#section" + this.id.replace("title", "");
     const $section = $(sectionId);
     const $icon = $(this);
+
+    $(".title-q .add").each(function () {
+      if (this === $icon[0]) return;
+      const $otherSection = $("#section" + this.id.replace("title", ""));
+      if ($otherSection.is(":visible")) {
+        $otherSection.slideUp(200);
+        $(this).attr("src", PLUS_ICON);
+      }
+    });
 
     $section
       .slideToggle(200)
       .promise()
       .done(function () {
         const isVisible = $section.is(":visible");
-        $icon.attr(
-          "src",
-          isVisible
-            ? "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/img/minus.png"
-            : "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/img/plus.png"
-        );
+        $icon.attr("src", isVisible ? MINUS_ICON : PLUS_ICON);
       });
   });
 
+  // Only one question's answer open at a time (within the open category,
+  // since other categories are already closed by the handler above).
   $(".faq-div .add").click(function () {
     const $answer = $(this).closest(".faq-div").find(".ans");
     const $icon = $(this);
+
+    $(".faq-div .add").each(function () {
+      if (this === $icon[0]) return;
+      const $otherAnswer = $(this).closest(".faq-div").find(".ans");
+      if ($otherAnswer.is(":visible")) {
+        $otherAnswer.slideUp(200);
+        $(this).attr("src", PLUS_ICON);
+      }
+    });
 
     $answer
       .slideToggle(200)
       .promise()
       .done(function () {
         const isVisible = $answer.is(":visible");
-        $icon.attr(
-          "src",
-          isVisible
-            ? "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/img/minus.png"
-            : "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/img/plus.png"
-        );
+        $icon.attr("src", isVisible ? MINUS_ICON : PLUS_ICON);
       });
   });
 });

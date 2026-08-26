@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
 * {
   padding: 0;
@@ -6,24 +7,35 @@
   box-sizing: border-box;
 }
 
+/* Ledger/filing identity: deep ink, quiet paper, a single stamp-red accent
+   used the way a customs stamp or filing seal would be -- sparingly, for
+   things that are active or need attention. No gradients, no drop shadows
+   as decoration. */
+:root {
+  --ink: #191536;
+  --ink-soft: #57516f;
+  --paper: #f6f4ee;
+  --card: #fffdf8;
+  --rule: #d9d3c1;
+  --stamp: #9a2b2b;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", "Open Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+}
+
 /* Default Styles (Desktop) */
 header {
   height: max-content;
-  min-height: 340px;
-  color: rgba(255, 255, 255, 1);
-  background-image: radial-gradient(
-      circle at 15% -20%,
-      rgba(90, 40, 190, 0.55),
-      transparent 55%
-    ),
-    linear-gradient(135deg, rgba(25, 1, 76, 1), rgba(42, 0, 132, 1));
+  min-height: 300px;
+  color: var(--paper);
+  background: var(--ink);
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 48px 56px;
+  align-items: flex-end;
+  padding: 56px 56px 40px;
   box-sizing: border-box;
   position: relative;
-  overflow: hidden;
+  border-bottom: 4px solid var(--stamp);
   gap: 40px;
 }
 
@@ -38,62 +50,77 @@ header {
 .book-column {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-end;
+  gap: 12px;
   z-index: 4;
+  padding-left: 24px;
+  border-left: 1px solid rgba(246, 244, 238, 0.25);
 }
 
 .book-cta {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 1);
-  color: rgba(25, 1, 76, 1);
-  font-family: "Inter", sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 8px 18px;
-  border-radius: 20px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  z-index: 4;
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 0 0 2px;
+  border-bottom: 1px solid rgba(246, 244, 238, 0.55);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.book-cta::after {
+  content: "\2192";
+  margin-left: 2px;
 }
 
 .book-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+  color: #ffffff;
+  border-bottom-color: var(--stamp);
 }
 
 #title {
-  font-family: "Open Sans";
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
   width: 100%;
   text-align: center;
-  line-height: 1.05;
-  letter-spacing: -1.5px;
-  font-size: 5rem;
-  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  line-height: 1;
+  letter-spacing: -0.5px;
+  font-size: 4.6rem;
 }
 
 .title-box {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  font-family: "Open Sans";
+  font-family: var(--font-body);
   font-weight: 400;
   text-align: center;
   line-height: normal;
-  gap: 18px;
-  position: relative;
+  gap: 14px;
+  /* True window-centering rather than centering within whatever space is
+     left between the logo and book columns (which don't have equal
+     widths, so that would not actually land on-center). */
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
   z-index: 3;
+  width: max-content;
+  max-width: 55%;
 }
 .title-box p {
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.5;
-  max-width: 480px;
-  color: rgba(255, 255, 255, 0.82);
-  letter-spacing: 0.2px;
+  max-width: 420px;
+  color: rgba(246, 244, 238, 0.72);
+  letter-spacing: 0.3px;
+  border-top: 1px solid rgba(246, 244, 238, 0.25);
+  padding-top: 14px;
 }
 .logo-div {
   align-self: flex-start;
@@ -108,135 +135,128 @@ section ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   counter-reset: bg-step;
 }
 section ul li {
-  background: rgba(246, 247, 251, 1);
-  border: 1px solid rgba(42, 58, 141, 0.1);
-  border-radius: 12px;
-  padding: 20px 20px 20px 20px;
-  padding-top: 48px;
   position: relative;
-  font-family: "Inter", sans-serif;
-  font-size: 15px;
-  font-weight: 450;
-  line-height: 26px;
-  text-align: left;
-  color: rgba(74, 74, 74, 1);
-  text-decoration-skip-ink: none;
-  font-variation-settings: "slnt" 0;
+  padding: 22px 0 22px 56px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: justify;
+  color: var(--ink-soft);
+  max-width: 78ch;
+}
+#free-msg {
+  margin: auto;
+  text-align: center;
+  width: 100%;
+}
+section ul li:last-child {
+  border-bottom: 1px solid var(--rule);
 }
 section ul li::before {
   counter-increment: bg-step;
-  content: counter(bg-step);
+  content: "0" counter(bg-step);
   position: absolute;
-  top: 16px;
-  left: 20px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background-image: linear-gradient(135deg, rgba(25, 1, 76, 1), rgba(45, 0, 140, 1));
-  color: #fff;
-  font-family: "Inter", sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  top: 22px;
+  left: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--stamp);
+  font-variant-numeric: tabular-nums;
 }
 #book-title {
   width: max-content;
-  font-weight: 300;
-  position: relative;
-  right: -50px;
-  top: 50px;
-  font-family: "Inter", sans-serif;
-  font-size: 14px;
-  text-align: center;
+  font-weight: 400;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-align: right;
   line-height: 16px;
-  color: white;
+  color: rgba(246, 244, 238, 0.6);
 }
 #book {
   height: auto;
-  width: 315px;
+  width: 150px;
 }
 #round-svg {
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 2;
+  display: none;
+}
+
+body {
+  background: var(--paper);
 }
 
 main {
   padding: 0 50px;
-  max-width: 1160px;
+  max-width: 900px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: start;
-  margin: 5ch auto;
-  gap: 24px;
+  margin: 7ch auto;
+  gap: 28px;
 }
 
 #bg {
-  font-family: "Inter", sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: rgba(23, 1, 69, 1);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stamp);
   line-height: normal;
-  position: relative;
-  padding-left: 16px;
-  border-left: 5px solid rgba(25, 1, 76, 1);
 }
 
 main section p {
-  font-family: "Inter", sans-serif;
-  font-size: 16px;
-  font-weight: 450;
-  line-height: 30px;
-  text-align: left;
-  color: rgba(74, 74, 74, 1);
-  text-decoration-skip-ink: none;
-  font-variation-settings: "slnt" 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.7;
+  text-align: justify;
+  color: var(--ink);
+  max-width: 62ch;
 }
 
 main section {
   display: flex;
   align-items: start;
-  gap: 20px;
+  gap: 28px;
   flex-direction: column;
-  background: rgba(255, 255, 255, 1);
-  border: 1px solid rgba(42, 58, 141, 0.1);
-  border-radius: 14px;
-  box-shadow: 0 8px 28px rgba(25, 1, 76, 0.06);
-  padding: 32px;
+  background: transparent;
   width: 100%;
   box-sizing: border-box;
 }
 
 .calculate {
-  width: 150px;
-  height: 50px;
+  width: 170px;
+  height: 46px;
   cursor: pointer;
-  background-image: linear-gradient(rgba(25, 1, 76, 1), rgba(40, 0, 125, 1));
+  background: var(--ink);
   border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-family: "Inter", sans-serif;
-  color: rgba(255, 255, 255, 1);
+  border-radius: 2px;
+  font-size: 14px;
+  padding: 0 28px;
+  font-family: var(--font-body);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--paper);
   line-height: 20px;
   font-weight: 500;
-  margin: auto;
-  margin-top: 40px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  margin: 8px auto 0;
+  transition: background 0.15s ease;
 }
 .calculate:hover {
-  box-shadow: 0 8px 20px rgba(25, 1, 76, 0.3);
-  transform: translateY(-2px);
+  background: var(--stamp);
 }
 
 footer {
@@ -245,16 +265,18 @@ footer {
   justify-content: center;
   width: 100%;
   align-items: center;
-  background-image: linear-gradient(rgba(25, 1, 76, 1), rgba(40, 0, 125, 1));
+  background: var(--ink);
+  border-top: 4px solid var(--stamp);
   padding: 0 20px;
   text-align: center;
 }
 
 footer p {
-  font-family: "Open Sans";
-  color: rgba(255, 255, 255, 1);
-  font-size: 16px;
+  font-family: var(--font-body);
+  color: rgba(246, 244, 238, 0.7);
+  font-size: 13px;
   font-weight: 400;
+  letter-spacing: 0.3px;
   line-height: 20px;
 }
 /* model */
@@ -285,13 +307,15 @@ footer p {
 .modal-header {
   font-size: 20px;
   margin-bottom: 10px;
-  background-image: linear-gradient(rgba(25, 1, 76, 1), rgba(40, 0, 125, 1));
+  background: var(--ink);
+  border-bottom: 3px solid var(--stamp);
   padding: 14px 0;
   border-radius: 5px 5px 0 0;
   text-align: left;
-  font-family: "Inter", sans-serif;
-  font-weight: 400;
-  color: #fff;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--paper);
   padding-left: 15px;
 }
 
@@ -315,19 +339,21 @@ footer p {
 }
 
 .modal-footer button {
-  background-color: #25006e;
-  color: #fff;
+  background-color: var(--ink);
+  color: var(--paper);
   border: none;
   padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 4px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  letter-spacing: 0.4px;
+  border-radius: 2px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
   margin-left: 10px;
 }
 
 .modal-footer button:hover {
-  background-color: #25006e;
+  background-color: var(--stamp);
 }
 
 .modal-footer .decline-btn {
@@ -370,26 +396,32 @@ footer p {
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
-  gap: 12px;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
 }
 #learn-more-btn,
-#learn-more-relevant,#comparison-of-scheme {
-  background: rgba(231, 238, 255, 1);
-  border: 1px solid rgba(42, 58, 141, 0.15);
-  border-radius: 20px;
-  font-size: 14px;
-  font-family: "Inter", sans-serif;
-  text-decoration: none;
-  color: rgba(40, 0, 125, 1);
-  padding: 8px 16px;
+#learn-more-relevant,
+#comparison-of-scheme {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 3px;
+  color: var(--ink);
+  padding: 6px 10px;
   cursor: pointer;
-  transition: background 0.15s ease, box-shadow 0.15s ease;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 #learn-more-btn:hover,
 #learn-more-relevant:hover,
 #comparison-of-scheme:hover {
-  background: rgba(213, 224, 255, 1);
-  box-shadow: 0 2px 8px rgba(25, 1, 76, 0.12);
+  color: var(--stamp);
+  text-decoration-color: var(--stamp);
 }
 /* all the should not use cursor,it should inactive it should not move up and down */
 .popup-box {
@@ -437,13 +469,7 @@ footer p {
 
 @media (max-width: 1124px) {
   .title-box {
-    width: 30%;
-  }
-  #book {
-    width: 224px;
-  }
-  section ul {
-    grid-template-columns: repeat(2, 1fr);
+    width: 45%;
   }
 }
 /* Tablet Styles */
@@ -455,12 +481,31 @@ footer p {
     gap: 20px;
     padding: 32px 20px 20px 20px;
   }
-  section ul {
-    grid-template-columns: 1fr;
+  .book-column {
+    border-left: none;
+    border-top: 1px solid rgba(246, 244, 238, 0.25);
+    padding-left: 0;
+    padding-top: 16px;
+    align-items: center;
+  }
+  #book-title,
+  .title-box,
+  .title-box p {
+    text-align: center;
+  }
+  .title-box {
+    position: static;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
   }
 
   .title-box p {
     width: 100%;
+    max-width: 100%;
   }
 
   #title {
@@ -487,7 +532,7 @@ footer p {
     margin-top: 30px;
   }
   #book {
-    height: 210px;
+    height: 130px;
     width: auto;
   }
 
@@ -562,7 +607,7 @@ footer p {
 
   #book {
     width: auto;
-    height: 150px;
+    height: 110px;
   }
 
   main {
@@ -583,10 +628,11 @@ footer p {
   }
 
   .calculate {
-    width: 100px;
-    height: 35px;
+    width: 100%;
+    height: 44px;
     font-size: 14px;
-    margin-top: 10px;
+    margin: 10px auto 0;
+    align-self: center;
   }
 
   footer {
@@ -621,6 +667,13 @@ footer p {
     line-height: 24px;
     font-weight: 400;
   }
+  section ul li {
+    padding-left: 40px;
+    font-size: 15px;
+  }
+  section ul li::before {
+    font-size: 18px;
+  }
   footer {
     height: auto;
     padding: 8px 0;
@@ -631,7 +684,7 @@ footer p {
   }
   #book {
     width: auto;
-    height: 200px;
+    height: 120px;
   }
   .modal-content {
     width: 100%;
@@ -645,15 +698,14 @@ footer p {
   #free-msg {
     font-weight: 400;
     line-height: 24px;
-    text-align: center;
-    width: 100%;
-    margin: auto;
   }
   .calculate {
     box-sizing: border-box;
     padding: 10px 20px;
-    width: 110px;
+    width: 100%;
     font-size: 16px;
-    height: 40px;
+    height: 44px;
+    margin: 10px auto 0;
+    align-self: center;
   }
 }

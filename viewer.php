@@ -68,7 +68,7 @@ header(
         height: 36px;
         margin: 0 auto 16px;
         border: 4px solid #e0e0e0;
-        border-top-color: rgba(37, 0, 110, 1);
+        border-top-color: var(--ink, #191536);
         border-radius: 50%;
         animation: viewer-spin 0.8s linear infinite;
       }
@@ -81,40 +81,48 @@ header(
         display: none;
       }
       #viewer-status .error-message {
-        color: #c0392b;
+        color: var(--stamp, #9a2b2b);
         margin-bottom: 16px;
       }
       #viewer-retry {
-        background-color: rgba(37, 0, 110, 1);
+        background-color: var(--ink, #191536);
         color: white;
         display: none;
+      }
+      #viewer-retry:hover {
+        background-color: var(--stamp, #9a2b2b);
       }
       #viewer-status.error #viewer-retry {
         display: inline-block;
       }
       #toolbar {
         height: 60px;
-        background-image: linear-gradient(
-          rgba(37, 0, 110, 1),
-          rgba(22, 0, 66, 1)
-        );
+        background: var(--ink, #191536);
+        border-bottom: 3px solid var(--stamp, #9a2b2b);
         display: flex;
         justify-content: center;
         gap: 50px;
         align-items: center;
       }
       button {
-        padding: 10px;
+        padding: 10px 20px;
         width: max-content;
         border: 0;
-        border-radius: 8px;
+        border-radius: 2px;
         cursor: pointer;
-        font-size: 16px;
-        font-weight: 600;
+        font-size: 13px;
+        font-family: var(--font-body, "IBM Plex Sans", sans-serif);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-weight: 500;
+        transition: background 0.15s ease;
       }
       #submit-download{
-        background-color: #4a90e2;
+        background-color: var(--ink, #191536);
         color: white;
+      }
+      #submit-download:hover {
+        background-color: var(--stamp, #9a2b2b);
       }
       main {
         display: flex;
