@@ -53,4 +53,7 @@ window.addEventListener("click", (event) => {
   if (event.target === popupBox2) {
     popupBox2.style.display = "none";
   }
+  if (event.target === popupBox3) {
+    popupBox3.style.display = "none";
+  }
 });

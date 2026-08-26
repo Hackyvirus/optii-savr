@@ -51,6 +51,47 @@ header(
         padding: 20px;
         margin: auto;
       }
+      #viewer-status {
+        width: 75%;
+        margin: 60px auto;
+        padding: 30px;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 16px;
+        color: #333;
+      }
+      #viewer-status.hidden {
+        display: none;
+      }
+      #viewer-status .spinner {
+        width: 36px;
+        height: 36px;
+        margin: 0 auto 16px;
+        border: 4px solid #e0e0e0;
+        border-top-color: rgba(37, 0, 110, 1);
+        border-radius: 50%;
+        animation: viewer-spin 0.8s linear infinite;
+      }
+      @keyframes viewer-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      #viewer-status.error .spinner {
+        display: none;
+      }
+      #viewer-status .error-message {
+        color: #c0392b;
+        margin-bottom: 16px;
+      }
+      #viewer-retry {
+        background-color: rgba(37, 0, 110, 1);
+        color: white;
+        display: none;
+      }
+      #viewer-status.error #viewer-retry {
+        display: inline-block;
+      }
       #toolbar {
         height: 60px;
         background-image: linear-gradient(
@@ -168,11 +209,17 @@ header(
     </style>
   </head>
   <body>
-    <div id="toolbar">
+    <div id="toolbar" style="display:none;">
       <button onclick="downloadPDF()">Download</button>
     </div>
     <main>
-      <iframe id="pdfFrame"></iframe>
+      <div id="viewer-status">
+        <div class="spinner"></div>
+        <p class="status-message">Generating your report&hellip;</p>
+        <p class="error-message" style="display:none;"></p>
+        <button id="viewer-retry" onclick="retryViewer()">Retry</button>
+      </div>
+      <iframe id="pdfFrame" style="display:none;"></iframe>
     </main>
     <div id="custom-feedback-modal" class="modal-container">
       <div class="modal-box">
@@ -265,10 +312,6 @@ header(
       </div>
     </div>
 
-    <script nonce="<?= $nonce ?>">
-      console.log("Inline JS now allowed!");
-    </script>
-
     <script>
       function downloadPDF() {
         document.getElementById("custom-feedback-modal").style.display =
@@ -277,16 +320,75 @@ header(
 
       let blobURLFromStorage = null;
 
-      const stored = localStorage.getItem("sharedPDF");
-      if (stored) {
+      function showStatusError(message) {
+        const statusEl = document.getElementById("viewer-status");
+        statusEl.classList.remove("hidden");
+        statusEl.classList.add("error");
+        statusEl.querySelector(".status-message").style.display = "none";
+        const errorEl = statusEl.querySelector(".error-message");
+        errorEl.style.display = "block";
+        errorEl.textContent = message;
+        document.getElementById("toolbar").style.display = "none";
+      }
+
+      function showPdf(stored) {
         const byteArray = new Uint8Array(JSON.parse(stored));
         const blob = new Blob([byteArray], { type: "application/pdf" });
         blobURLFromStorage = URL.createObjectURL(blob);
         const frame = document.getElementById("pdfFrame");
-        if (frame) {
-          frame.src = blobURLFromStorage + "#toolbar=0&navpanes=0&scrollbar=0";
-        }
+        frame.src = blobURLFromStorage + "#toolbar=0&navpanes=0&scrollbar=0";
+        frame.style.display = "block";
+        document.getElementById("viewer-status").classList.add("hidden");
+        document.getElementById("toolbar").style.display = "flex";
       }
+
+      function retryViewer() {
+        if (window.opener && !window.opener.closed) {
+          window.opener.location.reload();
+        }
+        window.close();
+      }
+
+      (function waitForReport() {
+        const POLL_MS = 300;
+        const TIMEOUT_MS = 20000;
+        const start = Date.now();
+
+        function poll() {
+          const errPayload = localStorage.getItem("sharedPDF_error");
+          if (errPayload) {
+            localStorage.removeItem("sharedPDF_error");
+            let parsed;
+            try {
+              parsed = JSON.parse(errPayload);
+            } catch (e) {
+              parsed = { message: errPayload };
+            }
+            showStatusError(
+              parsed.message ||
+                "Something went wrong while generating your report."
+            );
+            return;
+          }
+
+          const stored = localStorage.getItem("sharedPDF");
+          if (stored) {
+            showPdf(stored);
+            return;
+          }
+
+          if (Date.now() - start > TIMEOUT_MS) {
+            showStatusError(
+              "Report generation is taking longer than expected. Please retry."
+            );
+            return;
+          }
+
+          setTimeout(poll, POLL_MS);
+        }
+
+        poll();
+      })();
 
       function downloadPDF1() {
         const downloadUrl =

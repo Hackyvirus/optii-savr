@@ -54,15 +54,6 @@ function processValues(values) {
 
 
 
-function safeParseFloat(value) {
-  if (typeof value !== "string") {
-    value = String(value);
-  }
-  return isNaN(parseFloat(value.replace(/,/g, "")))
-    ? 0
-    : parseFloat(value.replace(/,/g, ""));
-}
-
 let grossCIF,
   grossBCD,
   grossSGD,
@@ -217,6 +208,21 @@ function CalculateGrowth(value, growthRate, years) {
   return result;
 }
 
+// Single choke point for surfacing calc/PDF pipeline failures to the viewer tab
+// and the developer console, instead of letting them fail silently.
+function reportFatal(code, err) {
+  const message = (err && err.message) || String(err);
+  try {
+    localStorage.setItem(
+      "sharedPDF_error",
+      JSON.stringify({ code, message, ts: Date.now() })
+    );
+  } catch (storageErr) {
+    console.error("[optii-savr] failed to write sharedPDF_error", storageErr);
+  }
+  console.error(`[optii-savr:${code}]`, err);
+}
+
 let RawTotalDuty = CalculateDuty(
   safeParseFloat(GrossRawBCD),
   safeParseFloat(GrossRawSWS),
@@ -334,29 +340,6 @@ async function getAllInputValues() {
   );
   DomesticRawMaterialValueSEZ = safeParseFloat(
     document.getElementById("DomesticRawMaterialValueSEZ").value
-  );
-
-  // Gross Value of Raw Material dOMESTIC
-  GrossRawDomesticCIF = safeParseFloat(
-    document.getElementById("GrossRawDomesticCIF").value
-  );
-  GrossRawDomesticBCD = safeParseFloat(
-    document.getElementById("GrossRawDomesticBCD").value
-  );
-  GrossRawDomesticSWS = parseFloat(
-    (safeParseFloat(GrossRawDomesticBCD) * 10) / 100
-  );
-  GrossRawDomesticAIDC = safeParseFloat(
-    document.getElementById("GrossRawDomesticAIDC").value
-  );
-  GrossRawDomesticADD = safeParseFloat(
-    document.getElementById("GrossRawDomesticADD").value
-  );
-  GrossRawDomesticSGD = safeParseFloat(
-    document.getElementById("GrossRawDomesticSGD").value
-  );
-  GrossRawDomesticCWD = safeParseFloat(
-    document.getElementById("GrossRawDomesticCWD").value
   );
 
   // Gross Values of Common questions
@@ -972,10 +955,21 @@ async function getAllInputValues() {
     NetBeniftForEOU,
     NetBeniftForSEZ,
     NetBeniftForAIR
-  );
+  ).catch((err) => reportFatal("pdf-generation", err));
 }
 
-async function updatePDFAndDownload(
+// Thin wrapper: guarantees any failure anywhere in the calc/PDF pipeline is
+// caught and reported via reportFatal() instead of becoming an unhandled
+// promise rejection that leaves the viewer tab blank forever.
+async function updatePDFAndDownload(...args) {
+  try {
+    await updatePDFAndDownloadImpl(...args);
+  } catch (err) {
+    reportFatal("pdf-generation", err);
+  }
+}
+
+async function updatePDFAndDownloadImpl(
   value0,
   value1,
   value2,
@@ -1127,9 +1121,21 @@ async function updatePDFAndDownload(
   }
 
   const result = findFinalFile(baseValuesNum, keys);
-    let url = "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/reports/" + result.fileName;
+  if (!result) {
+    throw new Error(
+      "PIPELINE_NO_MATCHING_SCHEME_COMBINATION: no report template matches the given inputs"
+    );
+  }
+  let url = "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/reports/" + result.fileName;
 
-  const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
+  const existingPdfBytes = await fetch(url).then((res) => {
+    if (!res.ok) {
+      throw new Error(
+        `PIPELINE_REPORT_FETCH_FAILED: ${res.status} ${res.statusText} for ${url}`
+      );
+    }
+    return res.arrayBuffer();
+  });
   isNaN(value2) ? (value2 = 0) : (value2 = value2);
   const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
   const today = new Date();
@@ -2120,7 +2126,13 @@ async function updatePDFAndDownload(
     font: font,
   });
   const pdfBytes = await pdfDoc.save();
-  localStorage.setItem("sharedPDF", JSON.stringify(Array.from(pdfBytes)));
+  try {
+    localStorage.setItem("sharedPDF", JSON.stringify(Array.from(pdfBytes)));
+  } catch (storageErr) {
+    throw new Error(
+      `PIPELINE_PDF_STORAGE_FAILED: ${storageErr && storageErr.message || storageErr}`
+    );
+  }
 
   const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
   const pdfUrl = URL.createObjectURL(pdfBlob);

@@ -266,18 +266,6 @@ function setupDisposalListeners() {
 }
 document.addEventListener("DOMContentLoaded", setupDisposalListeners);
 
-document.querySelector("form").addEventListener("change", function (event) {
-  if (event.target.name === "experience" && event.target.checked) {
-    document
-      .querySelectorAll('input[name="experience"]')
-      .forEach((checkbox) => {
-        if (checkbox !== event.target) {
-          checkbox.checked = false;
-        }
-      });
-  }
-});
-
 let newTab;
 
 $("#calculate").click(() => {

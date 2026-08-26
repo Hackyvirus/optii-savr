@@ -2676,57 +2676,6 @@ header(
         </div>
       </aside>
     </section>
-    <div id="custom-feedback-modal" class="modal-container">
-      <div class="modal-box">
-        <form action="https://formsubmit.co/office@optitaxs.com" method="POST" id="feedback-form" class="feedback-form">
-          <h2 class="form-title">We'd Love Your Feedback!</h2>
-          <input type="hidden" name="csrf_token" value="0971794db025b7e8a41094084b726bf771709cdbacceb5a9066d293d43355cfd">
-          <!-- Name Field -->
-          <div class="form-group2">
-            <label for="user-name" class="form-label">Name</label>
-            <input type="text" id="user-name" autocomplete="on" name="name" class="form-input" placeholder="Enter your name" required />
-          </div>
-
-          <div class="form-group2">
-            <label for="user-email" class="form-label">Email</label>
-            <input type="email" id="user-email" autocomplete="on" name="email" class="form-input" placeholder="Enter your email" required />
-          </div>
-
-          <fieldset class="form-group">
-            <legend class="form-label">How was your experience with MOOWR Utility?</legend>
-            <div class="input-q">
-              <label><input type="checkbox" name="experience" value="Great" onclick="onlyOne(this)"> Great</label>
-              <label><input type="checkbox" name="experience" value="Good" onclick="onlyOne(this)"> Good</label>
-              <label><input type="checkbox" name="experience" value="Average" onclick="onlyOne(this)"> Average</label>
-              <label><input type="checkbox" name="experience" value="Needs Improvement" onclick="onlyOne(this)"> Needs Improvement</label>
-            </div>
-          </fieldset>
-
-          <div class="form-group">
-            <label for="user-feedback" class="form-label">Additional Feedback</label>
-            <textarea id="user-feedback" name="feedback" class="form-input" rows="4" placeholder="Share your thoughts..." required></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="newsletter-opt-in" class="form-label">Subscribe to our Newsletter?</label>
-            <div class="checkbox-wrapper">
-              <input type="checkbox" id="newsletter-opt-in" name="subscribeNewsletter" class="form-checkbox" />
-              <label for="newsletter-opt-in">Yes, I want to stay updated!</label>
-            </div>
-          </div>
-
-          <!-- Hidden Fields for FormSubmit -->
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_autoresponse" value="Thank you for your feedback!">
-          <input type="hidden" name="_next" value="https://optitaxs.com/">
-
-          <div class="submit-skip">
-            <div class="skip-btn" id="skip">Skip and Download</div>
-            <button type="submit" id="submit-download" class="submit-btn">Submit & Download Report</button>
-          </div>
-        </form>
-      </div>
-    </div>
   </main>
   <h2 class="manual"><a aria-label="User Manual" href="https://optitaxs.com/optii-savr-user-manual/">User Manual for Optii-Savr</a></h2>
   <script nonce="<?= $nonce ?>">

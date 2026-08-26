@@ -302,10 +302,6 @@ header(
       &copy; <span id="year"></span> Optii-Savr. Built for better duty savings.
       All rights reserved.
     </footer>
-    <script nonce="<?= $nonce ?>">
-    console.log("Inline JS now allowed!");
-</script>
-
     <script src="https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/scripts/optii-savr-usermanual.js"></script>
   </body>
 </html>
