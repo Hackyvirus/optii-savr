@@ -281,13 +281,22 @@ header(
         <h1 id="title"><em>Optii-Savr</em></h1>
         <p>Compares Customs duty saving schemes & calculates net benefit</p>
       </div>
-      <div class="book-div">
-        <p id="book-title"><em>From the authors of</em></p>
-        <img
-          id="book"
-          src="https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/img/books.png"
-          alt="books"
-        />
+      <div class="book-column">
+        <div class="book-div">
+          <p id="book-title"><em>From the authors of</em></p>
+          <img
+            id="book"
+            src="https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/img/books.png"
+            alt="books"
+          />
+        </div>
+        <a
+          class="book-cta"
+          href="https://bharatlawhouse.in/shop/taxation-law-indirect-tax-direct-tax-income-tax-gst-ca-books/manufacturing-in-customs-bonded-warehouse-by-raveendra-pethe-ca-amrendra-chaudhri-cs-llb-sunil-kumar-rajesh-ingale-edition-2022/?srsltid=AfmBOop7wSPZAB3pXWIgC8BHNlMAP4CndYn8p0HqINRooMqIXiR7W0Kp"
+          target="_blank"
+          rel="noopener"
+          >Buy the book</a
+        >
       </div>
       <svg
         id="round-svg"

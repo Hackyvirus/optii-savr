@@ -294,7 +294,7 @@ header(
         >
       </h2>
     </main>
-    <button onclick="scrollToTop()" id="backToTopBtn" title="Go to top">
+    <button id="backToTopBtn" title="Go to top">
       ↑ Top
     </button>
 

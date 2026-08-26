@@ -407,12 +407,16 @@ header(
                     autocomplete="off"
                     class="input-11"
                     name="Machine1"
-                    required="true">
+                    required="true"
+                    aria-describedby="third-right-input-error">
                     <option>Choose</option>
                     <option value="Sale in DTA">Sale in DTA </option>
                     <option value="Destroy">Destruction </option>
                     <option value="Export">Export </option>
                   </select>
+                  <p id="third-right-input-error" class="field-error" style="display:none;">
+                    Please select a "Disposal of capital goods by way of".
+                  </p>
                 </div>
               </div>
               <div class="input-box">

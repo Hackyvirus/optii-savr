@@ -65,19 +65,24 @@
   function goNext() {
     const textInput = document.getElementById("first-left-input");
     const selectInput = document.getElementById("third-right-input");
+    const selectError = document.getElementById("third-right-input-error");
     if (sectionIndex === 0 && boxIndex === 0) {
       const textValue = textInput.value.trim();
       if (textValue !== "") {
         selectInput.setAttribute("required", "required");
         const selectValue = selectInput.value;
         if (selectValue === "Choose" || selectValue === "") {
-          alert('Please select a "Disposal of capital goods by way of ".');
+          selectInput.setAttribute("aria-invalid", "true");
+          if (selectError) selectError.style.display = "block";
+          selectInput.focus();
           return;
         }
       } else {
         selectInput.removeAttribute("required");
       }
     }
+    selectInput.removeAttribute("aria-invalid");
+    if (selectError) selectError.style.display = "none";
     const currentSection = document.getElementById(sections[sectionIndex]);
     const boxCount = currentSection.children.length;
     if (boxIndex < boxCount - 1) {
@@ -100,6 +105,14 @@
     showCurrentBox();
     updateProgress();
   }
+  document.getElementById("third-right-input").addEventListener("change", () => {
+    const selectInput = document.getElementById("third-right-input");
+    const selectError = document.getElementById("third-right-input-error");
+    if (selectInput.value !== "Choose" && selectInput.value !== "") {
+      selectInput.removeAttribute("aria-invalid");
+      if (selectError) selectError.style.display = "none";
+    }
+  });
   document.getElementById("next").addEventListener("click", goNext);
   document.getElementById("Prev").addEventListener("click", goPrev);
   document.getElementById("calculate").addEventListener("click", function() {

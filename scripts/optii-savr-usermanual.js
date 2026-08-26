@@ -6,6 +6,7 @@
   function initScrollToTopButton() {
     document.getElementById("year").textContent = (/* @__PURE__ */ new Date()).getFullYear();
     const topBtn = document.getElementById("backToTopBtn");
+    topBtn.addEventListener("click", scrollToTop);
     window.onscroll = function() {
       if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
         topBtn.style.display = "block";
@@ -16,6 +17,5 @@
   }
 
   // src/entries/optii-savr-usermanual.entry.js
-  window.scrollToTop = scrollToTop;
   initScrollToTopButton();
 })();
