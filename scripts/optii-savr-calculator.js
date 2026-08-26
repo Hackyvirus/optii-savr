@@ -123,9 +123,8 @@
   document.addEventListener("DOMContentLoaded", setupDisposalListeners);
 
   // src/wizard/formatting.js
-  function formatNumber(id) {
-    const input = document.getElementById(id);
-    let value = input.value.replace(/[^\d.]/g, "");
+  function formatIndianNumber(rawValue) {
+    let value = rawValue.replace(/[^\d.]/g, "");
     if ((value.match(/\./g) || []).length > 1) {
       value = value.replace(/(?!^)\./g, "");
     }
@@ -139,7 +138,11 @@
     if (decimalPart !== void 0) {
       formattedValue += "." + decimalPart;
     }
-    input.value = formattedValue;
+    return formattedValue;
+  }
+  function formatNumber(id) {
+    const input = document.getElementById(id);
+    input.value = formatIndianNumber(input.value);
   }
 
   // src/entries/optii-savr-calculator.entry.js

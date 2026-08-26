@@ -1,3 +1,5 @@
+import { REPORT_MANIFEST } from "./reportManifest.js";
+
 export function getCombinations(arr, size) {
   const result = [];
 
@@ -45,8 +47,18 @@ export function findFinalFile(values, keys) {
       const isTrulyMax = maxVal >= maxOutside;
 
       if (allSameMax && isTrulyMax) {
+        const fileName = combo.slice().sort().join("_") + ".pdf";
+        // A qualifying combo whose filename isn't one of the real report
+        // templates would previously reach fetch() and fail unpredictably
+        // (404 -> corrupt-PDF parse error). Skip it here instead so
+        // selection keeps searching smaller combos, falling through to a
+        // clean `null` (surfaced as PIPELINE_NO_MATCHING_SCHEME_COMBINATION)
+        // if nothing else qualifies.
+        if (!REPORT_MANIFEST.has(fileName)) {
+          continue;
+        }
         return {
-          fileName: combo.slice().sort().join("_") + ".pdf",
+          fileName,
           maxValue: maxVal,
           keys: combo,
         };

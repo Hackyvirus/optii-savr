@@ -1,9 +1,8 @@
-// Indian lakh/crore comma grouping for the wizard's amount inputs. Must stay
-// on `window` (see entry file) since it's called from inline
-// oninput="formatNumber(...)" HTML attributes.
-export function formatNumber(id) {
-  const input = document.getElementById(id);
-  let value = input.value.replace(/[^\d.]/g, "");
+// Indian lakh/crore comma grouping (e.g. "150000000" -> "15,00,00,000") for
+// the wizard's amount inputs. Pure string transform, split out from the
+// DOM-touching formatNumber() below so it's independently unit-testable.
+export function formatIndianNumber(rawValue) {
+  let value = rawValue.replace(/[^\d.]/g, "");
   if ((value.match(/\./g) || []).length > 1) {
     value = value.replace(/(?!^)\./g, "");
   }
@@ -18,5 +17,12 @@ export function formatNumber(id) {
   if (decimalPart !== undefined) {
     formattedValue += "." + decimalPart;
   }
-  input.value = formattedValue;
+  return formattedValue;
+}
+
+// Must stay on `window` (see entry file) since it's called from inline
+// oninput="formatNumber(...)" HTML attributes.
+export function formatNumber(id) {
+  const input = document.getElementById(id);
+  input.value = formatIndianNumber(input.value);
 }

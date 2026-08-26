@@ -125,6 +125,73 @@
     return result;
   }
 
+  // src/calc/reportManifest.js
+  var REPORT_MANIFEST = /* @__PURE__ */ new Set([
+    "AA.pdf",
+    "AA_AIR.pdf",
+    "AA_AIR_BR.pdf",
+    "AA_AIR_BR_EOU.pdf",
+    "AA_AIR_BR_EOU_MOOWR.pdf",
+    "AA_AIR_BR_EOU_MOOWR_SEZ.pdf",
+    "AA_AIR_BR_EOU_SEZ.pdf",
+    "AA_AIR_BR_MOOWR.pdf",
+    "AA_AIR_BR_MOOWR_SEZ.pdf",
+    "AA_AIR_BR_SEZ.pdf",
+    "AA_AIR_EOU.pdf",
+    "AA_AIR_EOU_MOOWR.pdf",
+    "AA_AIR_EOU_MOOWR_SEZ.pdf",
+    "AA_AIR_EOU_SEZ.pdf",
+    "AA_AIR_MOOWR.pdf",
+    "AA_AIR_MOOWR_SEZ.pdf",
+    "AA_AIR_SEZ.pdf",
+    "AA_BR.pdf",
+    "AA_BR_EOU.pdf",
+    "AA_BR_EOU_MOOWR.pdf",
+    "AA_BR_EOU_MOOWR_SEZ.pdf",
+    "AA_BR_EOU_SEZ.pdf",
+    "AA_BR_MOOWR.pdf",
+    "AA_BR_MOOWR_SEZ.pdf",
+    "AA_BR_SEZ.pdf",
+    "AA_EOU.pdf",
+    "AA_EOU_MOOWR.pdf",
+    "AA_EOU_MOOWR_SEZ.pdf",
+    "AA_EOU_SEZ.pdf",
+    "AA_MOOWR.pdf",
+    "AA_MOOWR_SEZ.pdf",
+    "AA_SEZ.pdf",
+    "AIR.pdf",
+    "AIR_BR.pdf",
+    "AIR_BR_EOU.pdf",
+    "AIR_BR_EOU_MOOWR.pdf",
+    "AIR_BR_EOU_MOOWR_SEZ.pdf",
+    "AIR_BR_EOU_SEZ.pdf",
+    "AIR_BR_MOOWR.pdf",
+    "AIR_BR_MOOWR_SEZ.pdf",
+    "AIR_BR_SEZ.pdf",
+    "AIR_EOU.pdf",
+    "AIR_EOU_MOOWR.pdf",
+    "AIR_EOU_MOOWR_SEZ.pdf",
+    "AIR_EOU_SEZ.pdf",
+    "AIR_MOOWR.pdf",
+    "AIR_MOOWR_SEZ.pdf",
+    "AIR_SEZ.pdf",
+    "BR.pdf",
+    "BR_EOU.pdf",
+    "BR_EOU_MOOWR.pdf",
+    "BR_EOU_MOOWR_SEZ.pdf",
+    "BR_EOU_SEZ.pdf",
+    "BR_MOOWR.pdf",
+    "BR_MOOWR_SEZ.pdf",
+    "BR_SEZ.pdf",
+    "EOU.pdf",
+    "EOU_MOOWR.pdf",
+    "EOU_MOOWR_SEZ.pdf",
+    "EOU_SEZ.pdf",
+    "MOOWR.pdf",
+    "MOOWR_SEZ.pdf",
+    "SEZ.pdf"
+  ]);
+
   // src/calc/reportSelection.js
   function getCombinations(arr, size) {
     const result = [];
@@ -156,8 +223,12 @@
         const maxOutside = otherKeys.length ? Math.max(...otherKeys.map((k) => values[k])) : -Infinity;
         const isTrulyMax = maxVal >= maxOutside;
         if (allSameMax && isTrulyMax) {
+          const fileName = combo.slice().sort().join("_") + ".pdf";
+          if (!REPORT_MANIFEST.has(fileName)) {
+            continue;
+          }
           return {
-            fileName: combo.slice().sort().join("_") + ".pdf",
+            fileName,
             maxValue: maxVal,
             keys: combo
           };
