@@ -1,0 +1,72 @@
+AA.pdf =  done
+BR.pdf = done
+EOU.pdf = done
+
+MOOWR.pdf = done
+SEZ.pdf = done
+AA_BR.pdf = done
+AA_EOU.pdf = done
+AA_MOOWR.pdf =  done
+AA_SEZ.pdf = done
+BR_EOU.pdf = done
+BR_MOOWR.pdf = done
+BR_SEZ.pdf = done
+EOU_MOOWR.pdf = done
+
+EOU_SEZ.pdf = done
+MOOWR_SEZ.pdf = done
+AA_BR_EOU.pdf = done
+AA_BR_MOOWR.pdf = done
+AA_BR_SEZ.pdf = done
+AA_EOU_MOOWR.pdf = done
+AA_EOU_SEZ.pdf = done
+AA_MOOWR_SEZ.pdf = done
+BR_EOU_MOOWR.pdf = done
+BR_EOU_SEZ.pdf = done
+
+BR_MOOWR_SEZ.pdf = done
+EOU_MOOWR_SEZ.pdf = done
+AA_BR_EOU_MOOWR.pdf = done
+AA_BR_EOU_SEZ.pdf = done
+AA_BR_MOOWR_SEZ.pdf = done
+AA_EOU_MOOWR_SEZ.pdf = done
+BR_EOU_MOOWR_SEZ.pdf = done
+AA_BR_EOU_MOOWR_SEZ.pdf = done
+AIR.pdf = done
+AA_AIR.pdf = done
+
+AIR_BR.pdf = done
+AIR_EOU.pdf = done
+AIR_MOOWR.pdf = done
+AIR_SEZ.pdf = done
+AA_AIR_BR.pdf = done
+AA_AIR_EOU.pdf = done
+AA_AIR_MOOWR.pdf = done
+AA_AIR_SEZ.pdf = done
+AIR_BR_EOU.pdf = done
+AIR_BR_MOOWR.pdf = done
+
+AIR_BR_SEZ.pdf = done
+AIR_EOU_MOOWR.pdf = done
+AIR_EOU_SEZ.pdf = done
+AIR_MOOWR_SEZ.pdf = done
+AA_AIR_BR_EOU.pdf = done
+AA_AIR_BR_MOOWR.pdf = done
+AA_AIR_BR_SEZ.pdf = done
+AA_AIR_EOU_MOOWR.pdf = done
+AA_AIR_EOU_SEZ.pdf = done
+AA_AIR_MOOWR_SEZ.pdf = done
+
+AIR_BR_EOU_MOOWR.pdf = done
+AIR_BR_EOU_SEZ.pdf = done
+AIR_BR_MOOWR_SEZ.pdf = done
+AIR_EOU_MOOWR_SEZ.pdf = done
+AA_AIR_BR_EOU_MOOWR.pdf = done
+AA_AIR_BR_EOU_SEZ.pdf = done
+AA_AIR_BR_MOOWR_SEZ.pdf = done
+AA_AIR_EOU_MOOWR_SEZ.pdf = done
+AIR_BR_EOU_MOOWR_SEZ.pdf = done
+AA_AIR_BR_EOU_MOOWR_SEZ.pdf = done
+
+ 
+ 
