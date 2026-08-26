@@ -1,0 +1,15 @@
+{
+  "name": "optii-savr",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Build tooling for the Optii-Savr WordPress theme tool. Source lives under src/; npm run build bundles it back down to the four scripts/*.js files the PHP pages load. Never upload src/, node_modules/, or package*.json to WordPress.",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:watch": "node build.mjs --watch",
+    "test": "node --test src/**/*.test.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}
