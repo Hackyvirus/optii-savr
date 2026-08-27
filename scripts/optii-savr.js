@@ -8,7 +8,8 @@
     if ($("#checkbox").is(":checked")) {
       const CALCULATOR_URL_BY_HOST = {
         localhost: "/optii-savr-calculator/",
-        "eversity.co.in": "https://eversity.co.in/tools/optii-savr/optii-savr-calculator/"
+        "eversity.co.in": "https://eversity.co.in/tools/optii-savr/optii-savr-calculator/",
+        "hackyvirus.github.io": "preview-calculator.html"
       };
       window.location.href = CALCULATOR_URL_BY_HOST[window.location.hostname] || "https://optitaxs.com/optii-savr-calculator/";
     } else {

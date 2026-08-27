@@ -869,7 +869,10 @@
         "PIPELINE_NO_MATCHING_SCHEME_COMBINATION: no report template matches the given inputs"
       );
     }
-    let url = "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/reports/" + result.fileName;
+    const REPORTS_BASE_BY_HOST = {
+      "hackyvirus.github.io": "reports/"
+    };
+    let url = (REPORTS_BASE_BY_HOST[window.location.hostname] || "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/reports/") + result.fileName;
     const existingPdfBytes = await fetch(url).then((res) => {
       if (!res.ok) {
         throw new Error(
