@@ -53,12 +53,12 @@ header {
 }
 
 header h2 {
-  font-family: var(--font-display);
+  font-family: "Open Sans";
   font-style: italic;
   color: var(--paper);
   line-height: 20px;
-  font-weight: 500;
-  font-size: 2.6rem;
+  font-weight: 600;
+  font-size: 3rem;
 }
 
 /* main calculator */

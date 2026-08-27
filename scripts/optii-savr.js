@@ -6,7 +6,11 @@
   });
   $("#acceptBtn").on("click", function() {
     if ($("#checkbox").is(":checked")) {
-      window.location.href = "https://optitaxs.com/optii-savr-calculator/";
+      const CALCULATOR_URL_BY_HOST = {
+        localhost: "/optii-savr-calculator/",
+        "eversity.co.in": "https://eversity.co.in/tools/optii-savr/optii-savr-calculator/"
+      };
+      window.location.href = CALCULATOR_URL_BY_HOST[window.location.hostname] || "https://optitaxs.com/optii-savr-calculator/";
     } else {
       alert("Please accept the terms and conditions");
     }

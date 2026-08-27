@@ -272,17 +272,26 @@
     });
   });
   var newTab;
+  var VIEWER_URL_BY_HOST = {
+    localhost: "/viewer",
+    "eversity.co.in": "/tools/optii-savr/viewer/"
+  };
   $("#calculate").click(() => {
-    newTab = window.open("/viewer", "_blank");
+    const viewerUrl = VIEWER_URL_BY_HOST[window.location.hostname] || "/viewer";
+    newTab = window.open(viewerUrl, "_blank");
     if (!newTab) {
       alert("Popup blocked! Enable popups for this site.");
       return;
     }
+    const MAIN_JS_BY_HOST = {
+      localhost: "/scripts/main.js",
+      "eversity.co.in": "/wp-content/themes/hostinger-ai-theme/tools/optii-savr/scripts/main.js"
+    };
     var script = document.createElement("script");
-    script.src = "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/scripts/main.js";
+    script.src = MAIN_JS_BY_HOST[window.location.hostname] || "https://optitaxs.com/wp-content/themes/optitaxtheme/tools/optii-savr/scripts/main.js";
     document.body.appendChild(script);
     window.onPdfReady = function(finalUrl) {
-      newTab.location.href = "/viewer";
+      newTab.location.href = viewerUrl;
     };
     script.onload = async function() {
       await getAllInputValues();
